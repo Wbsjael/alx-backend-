@@ -1,31 +1,34 @@
 #!/usr/bin/python3
-"""
-Pascal's triangle module
-"""
+"""0-pascal_triangle."""
 
 
-def pascal_triangle(n):
-    """ Pascal's triangle generator using addition
-        Args:
-            - n: levels of pascal triangle(always an integer)
-        Return:
-            -  an empty list if n <= 0
+from typing import List
+
+
+triangle: List[List[int]] = list()
+triangle.append([1])
+
+
+def pascal_triangle(n: int) -> List[List[int]]:
+    """
+    Return a list of lists of intergers representing the Pascal's Triangle.
+
+    temp is temporary list to be storing the elements of to manipulate /
+    to form the new row.
+    row will be every new row of the values of that row position.
+    sumNextValue will be the sum of the values that forms the current row.
+
+    Args:
+        n (int): The number of rows of the triangle.
     """
     if n <= 0:
-        return []
-
-    pascal_triangle = []
-    prev_row = []
-    for row in range(n):
-        new_row = []
-        for num in range(row + 1):
-            if num == 0:
-                new_row.append(1)
-                continue
-            try:
-                new_row.append(prev_row[num - 1] + prev_row[num])
-            except IndexError:
-                new_row.append(1)
-        prev_row = new_row
-        pascal_triangle.append(new_row)
-    return pascal_triangle
+        return list()
+    else:
+        for i in range(n - 1):
+            temp: List[int] = [0] + triangle[-1] + [0]
+            row: List[int] = list()
+            for j in range(len(triangle[-1]) + 1):
+                sumNextVal: int = temp[j] + temp[j + 1]
+                row.append(sumNextVal)
+            triangle.append(row)
+        return triangle
